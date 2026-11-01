@@ -25,7 +25,7 @@ module.exports = function (app) {
         });
         router.delete(`/${path}/:id`, async (req, res) => {
             await store.remove(Model, req.params.id);
-            res.status(200).json({ message: `${Model.modelName} deleted.`, data: null });
+            res.status(204).end();
         });
     }
     app.use('/api', router);

@@ -17,7 +17,7 @@ Tests cover defaults and validation, status codes, field projection, filters and
 
 ## Behavior notes
 
-- POST returns 201; PUT and DELETE return 200. DELETE includes the standard `{message, data}` envelope. CORS OPTIONS returns 204 with no body.
+- POST returns 201 and PUT returns 200. Successful DELETE and CORS OPTIONS return 204 with no body; all other API responses include the standard `{message, data}` envelope. The course autograder explicitly requires the empty 204 DELETE response.
 - PUT resets omitted optional fields and preserves the server-created `dateCreated`.
 - `count=true` counts all documents matching `where`, independently of pagination and projection. `limit=0` means unlimited. Task lists default to 100; user lists are unlimited.
 - JSON bodies use strict field types. URL-encoded form bodies also accept `completed=true` and `completed=false` strings.

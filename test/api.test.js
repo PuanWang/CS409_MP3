@@ -11,11 +11,16 @@ let server, base;
 const databaseName = `mp3_test_${randomUUID().replaceAll('-', '').slice(0, 24)}`;
 const deadline = '2026-11-03T23:59:00.000Z';
 const missing = '000000000000000000000001';
-async function request(method, path, body, status = 200) {
+async function request(method, path, body, status = method === 'DELETE' ? 204 : 200) {
     const res = await fetch(`${base}/api${path}`, {
         method, headers: { 'Content-Type': 'application/json' },
         body: body === undefined ? undefined : JSON.stringify(body)
     });
+    if (status === 204) {
+        assert.equal(res.status, 204);
+        assert.equal(await res.text(), '');
+        return null;
+    }
     const json = await res.json();
     assert.equal(res.status, status, `${method} ${path}: ${JSON.stringify(json)}`);
     assert.equal(typeof json.message, 'string');
@@ -199,7 +204,7 @@ test('concurrent assignments and deletion preserve references', async () => {
         fetch(`${base}/api/tasks/${t._id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'Task', deadline, completed: true, assignedUser: a._id }) }),
         fetch(`${base}/api/users/${a._id}`, { method: 'DELETE' })
     ]);
-    assert.ok([200, 404].includes(results[0].status)); assert.equal(results[1].status, 200);
+    assert.ok([200, 404].includes(results[0].status)); assert.equal(results[1].status, 204);
     await invariant();
 });
 test('JSON parser, form encoding, unknown routes and CORS', async () => {
