@@ -1,0 +1,101 @@
+遵循 [README.md](README.md) 中的要求 补全我的代码
+项目编写过程中遇到任何问题随时与我确认
+
+
+我会先阅读 README 和项目现状，按作业要求完成实现与验证；Google Form 提交留给你手动完成。遇到需要你决定或提供信息的地方，我会及时确认。
+
+
+
+
+运行了命令已搜索网页
+
+
+
+README 要求部署到 Render 并运行在线自测。你是否已有 Render 服务或登录好的 Render 账号？如已有服务，请提供服务 URL；如还没有，可先登录 Render，代码和本地测试我会继续完成。
+
+
+
+
+
+编辑了文件运行了命令
+
+
+
+我发现本地已有 Atlas 凭据文件，已把这类文件加入 Git 忽略规则；接下来会检查当前接口、查询参数和双向关联的完成情况，并用数据库事务保证失败请求不会留下部分修改。GitHub CLI 的登录凭据已失效，发布代码时可能需要你重新登录。
+
+
+
+
+运行了命令
+
+
+
+Atlas 连接已验证成功，核心接口已实现。现在开始用独立的临时测试数据库检查任务转移、完成/重新开启、用户改名与删除、错误优先级和事务回滚；测试不会清空你的作业数据库。依赖检查发现的漏洞也已修复，目前 npm audit 为 0。
+
+
+
+
+README 要求部署到 Render 并运行在线自测。你是否已有 Render 服务或登录好的 Render 账号？如已有服务，请提供服务 URL；如还没有，可先登录 Render，代码和本地测试我会继续完成。
+
+
+
+
+
+已运行 node -e "require('dotenv').config({quiet:true});const m=require('mongoose');require('./app');(async()=>{try{await m.connect(process.env.MONGODB_URI,{dbName:'mp3_test_diagnostic',serverSelectionTimeoutMS:10000});await require('./lib/store').initialize(); console.log('Test database initialization OK');await m.connection.dropDatabase();}catch(e){console.log(e.name+': '+e.message.replace(/mongodb[^ ]+/g,'[redacted]'));}finally{await m.disconnect();}})();"
+
+
+
+
+已收到部署地址。我会把它填入自测脚本，并检查线上服务和仓库的关联情况；本地测试目前在初始化阶段遇到异常，正在定位。
+
+
+
+
+编辑了文件运行了命令
+
+
+
+测试初始化异常已定位并修复：Atlas 对临时数据库名称长度有限制。创建、校验、任务转移和用户替换等测试已通过。
+
+
+
+14 项集成测试已全部通过，包括并发关联和故障回滚。Render 确认跟踪该仓库的 main 分支，我现在准备提交并推送已验证的实现，然后等待部署并运行自测。
+
+
+
+代码已成功推送，Render 已自动开始部署提交 a2b4581。现有服务已配置 MONGODB_URI；本次修改也将 Node 版本固定为作业要求的 24。工作区已干净，凭据文件没有进入提交。
+
+
+
+新版 API 已上线，线上数据库查询也返回正常。Render 日志确认使用 Node 24，课程自测已启动，正在等待评分结果；Google Form 和 LLM 使用记录均未操作。
+
+
+
+
+第一轮课程自测为 90/100：所有功能项通过，两个扣分项都在删除响应格式。评分器要求 DELETE 成功返回 204 且无响应体；我会据此调整，重新测试并部署。
+
+
+
+
+编辑了文件运行了命令
+
+
+
+删除响应已修正为 204，本地 14 项测试再次全部通过，修正版 9b90682 已推送。Render 正在部署，完成后会再跑一次课程评分器确认。
+
+
+
+
+运行了命令
+
+
+
+
+
+
+项目已完成并部署，课程自测结果 100/100（20/20 项通过）。
+- 线上 API
+- 全部 CRUD、查询参数、输入校验和双向关联已实现。
+- 本地 14 项集成测试全部通过，依赖审计 0 漏洞。
+- 代码已推送至 GitHub main，最新提交 9b90682；凭据未提交。
+- [运行与测试说明](D:/CS409/MP3/CS409_MP3/DEVELOPMENT.md)
